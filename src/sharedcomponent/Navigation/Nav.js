@@ -1,6 +1,11 @@
+import { signOut } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { NavLink } from "react-router-dom";
+import auth from "../../firebase.init";
+
 
 const Nav = () => {
+  const [user, loading, error] = useAuthState(auth);
     return (
         <nav class="
         relative
@@ -58,7 +63,12 @@ const Nav = () => {
             <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#"><NavLink to="/product">Product</NavLink></a>
           </li>
           <li class="nav-item p-2">
-            <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#"><NavLink to="/singin">Sing In</NavLink></a>
+            <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#"><NavLink to="/singin">
+              {user?<button onClick={async()=>{
+              await window.alert("Are you sure?");
+              await  signOut(auth);
+              }}>Sing Out</button>:"Sing In"}
+              </NavLink></a>
             <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#"><NavLink to="/about">About</NavLink></a>
           </li>
         </ul>
